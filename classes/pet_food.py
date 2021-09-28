@@ -2,11 +2,6 @@ import numpy as np
 import cv2
 
 from typing import Tuple
-from pydub import AudioSegment
-from pydub.playback import play
-
-eat = AudioSegment.from_file('../../sounds/smw_coin.wav')
-
 
 class IterRegistry(type):
     def __iter__(cls):
@@ -125,12 +120,9 @@ class Pet_food(metaclass = IterRegistry):
     # detects hand collision
     def hand_collision(self, hand_center: tuple):
         collision_radius = 30
-        # y = int(np.random.randint(0, 400))
-
         dst = np.sqrt((self.position[1] - hand_center[0])**2 + (self.position[0] - hand_center[1])**2)
 
         if dst <= collision_radius:
-            # play(eat)
             self.current_status -= 4
     
     def reinit(self, pos):

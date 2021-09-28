@@ -15,12 +15,14 @@ def change_month(list,mounth_shape):
     else:
         mounth_shape=int(mounth_shape)
     return mounth_shape
+
 def eating(list,color):
     if list[0]-list[1]<160    :
         color=(0,0,255)
     else:
         color=color
     return color
+
 def draw_rabbit(list,img):
     color_head=(128,84,231)
     color_out=(0,0,0)
@@ -54,6 +56,7 @@ def draw_rabbit(list,img):
     cv2.ellipse(img,right_ear_coor,(int(int(size*0.3)*1.9),int(int(size*0.3)*0.6)),92,0,360,color_head,-1)
     cv2.ellipse(img,left_ear_coor,(int(int(size*0.3)*1.9),int(int(size*0.3)*0.6)),50,0,360,color_head,-1)
     return img
+
 def draw_dog(list,img):
     color_out=(0,0,0)
     color_inside=(255,255,255)
@@ -97,6 +100,7 @@ def draw_dog(list,img):
     cv2.ellipse(img,mounth_center,(int(change_month(mountion,mounth_shape)*1.1),int(change_month(mountion,mounth_shape)*0.7)),0,0,180,eating(mountion,color_inside),-1)
 
     return img
+
 def draw_fish(list,img):
     color_out=(0,0,0)
     color_inside=(255,255,255)
@@ -130,6 +134,7 @@ def draw_fish(list,img):
     cv2.ellipse(img,mounth_center,(change_month(mountion,mounth_shape),int(change_month(mountion,mounth_shape)*0.6)),30,0,180,color_out,-1)
     cv2.ellipse(img,mounth_center,(change_month(mountion,mounth_shape),int(change_month(mountion,mounth_shape)*0.5)),30,0,180,eating(mountion,color_inside),-1)
     return img
+
 def draw_angry_dog(list,img):
     color_out=(0,0,0)
     color_inside=(255,255,255)
@@ -170,4 +175,5 @@ def draw_angry_dog(list,img):
     cv2.ellipse(img,mounth_center,(change_month(mountion,mounth_shape),int(change_month(mountion,mounth_shape)*0.5)),0,0,180,eating(mountion,color_inside),-1)
     cv2.ellipse(img,right_ear_coor,(int(int(size*0.3)*1.9),int(size*0.2)),130,0,360,color_head,-1)
     cv2.ellipse(img,left_ear_coor,(int(int(size*0.3)*1.9),int(size*0.2)),50,0,360,color_head,-1)
+    
     return img

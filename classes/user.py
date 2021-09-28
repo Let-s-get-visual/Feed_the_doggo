@@ -1,4 +1,4 @@
-from pet_food import Pet_food
+from classes.pet_food import Pet_food
 import numpy as np
 
 class User:
@@ -46,8 +46,6 @@ class User:
     def check_food(self, food_list):
         if self.status != 'human' and self.food not in food_list:
             self.status = 'wait'
-
-        # print(self.status != 'human' and self.food not in food_list, self.status, 'merdazza!')
     
     def check_lifes(self):
         if self.lifes < 2:

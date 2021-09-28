@@ -11,87 +11,65 @@ import mediapipe as mp
 
 from statistics import mode
 
-from pet_food import Pet_food
-from user import User
-from client import send_data
-from client_preprocessing import black, bbox_landmarks
+from classes.pet_food import Pet_food
+from classes.user import User
+# from client import send_data
+# from client_preprocessing import black, bbox_landmarks
+from model.prediction import predict
 
-import helpers as hp
-import prediction_for_model as pfm
-import animal_figures as af
-import handtracking as ht
-from menu_buttons import buttons
-from play_button import play
-
-# from multiprocessing import Pool
-# from multiprocessing import Process
-# from cnn_model import CNN
-
-
+import utilities.helpers as hp
+import utilities.prediction_for_model as pfm
+import utilities.animal_figures as af
+import classes.handtracking as ht
+from classes.menu_buttons import buttons
+from GUI.play_button import play
+import statistics
 
 #######################################################################################################################################
 
-# USEFUL VARIABLES
-global_time = time.time()
-window = 'Interactive games'
-game_status = 0 
-sleep_timer = 0
 
 
-# Media_pipe requirements
-mp_drawing = mp.solutions.drawing_utils
-mp_hands = mp.solutions.hands
+def gui():
 
-# Access to webcam
-vc = cv2.VideoCapture(0)
-if vc.isOpened():
-    response, frame = vc.read()
+    # USEFUL VARIABLES
+    global_time = time.time()
+    window = 'Interactive games'
+    game_status = 0 
+    sleep_timer = 0
 
-else:
-    response = False
+    # Media_pipe requirements
+    mp_drawing = mp.solutions.drawing_utils
+    mp_hands = mp.solutions.hands
 
+    player = User('test')
+    detector=ht.handDetector(detectionCon=0.8)
 
+    FRAME_COUNTER = 5
+    PREDICTION_LIST = []
+    state = 'idle'
+    player.status = 'wait'
 
+    # Access to webcam
+    vc = cv2.VideoCapture(0)
+    if vc.isOpened():
+        response, frame = vc.read()
+    else:
+        response = False
 
+    #call the class by giving dimensions and name of the buttons
+    Start = buttons((frame.shape[0]//4, frame.shape[1]//2), 'Start')
+    Help = buttons((frame.shape[0]//4+80, frame.shape[1]//2), 'Help')
+    Exit = buttons((frame.shape[0]//4+160, frame.shape[1]//2), 'Exit')
 
-#call the class by giving dimensions and name of the buttons
-Start = buttons((frame.shape[0]//4, frame.shape[1]//2), 'Start')
-Help = buttons((frame.shape[0]//4+80, frame.shape[1]//2), 'Help')
-Exit = buttons((frame.shape[0]//4+160, frame.shape[1]//2), 'Exit')
+########################################### Code to record a video ###########################################
+    # out_vid = cv2.VideoWriter('./output.avi', cv2.VideoWriter_fourcc(*'DIVX'), 30, (640, 480))
+########################################### Code to record a video ###########################################
 
-player = User('test')
-detector=ht.handDetector(detectionCon=0.8)
-
-# Code for prediction
-################################################################################
-# model = torch.load('../saved_models/best_acc_model4.pth', map_location='cpu')
-# model = CNN(5, 1, 64, 0.8, kernel_size=3)
-
-# model = torch.load('./model_best_loss.pth')
-# model.load_state_dict(torch.load('./model_best_accuracy.pth'))
-
-FRAME_COUNTER = 5
-PREDICTION_LIST = []
-state = 'idle'
-player.status = 'wait'
-
-
-
-#########
-# New code for multiprocessing
-#################################
-
-
-if __name__ == '__main__':
-
-    
-    
     with mp_hands.Hands(min_detection_confidence=0.8, min_tracking_confidence=0.5, max_num_hands=1) as hands:
         while response:
             response, frame = vc.read()
             # frame_n=cv2.flip(frame,4)
-            
-            
+                        
             image = cv2.cvtColor(cv2.flip(frame, 1), cv2.COLOR_BGR2RGB)
             image.flags.writeable = False
 
@@ -106,11 +84,6 @@ if __name__ == '__main__':
             image.flags.writeable = True
             image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
-
-    # if self.result.multi_hand_landmarks:
-    # hand=self.result.multi_hand_landmarks[handNomber]
-
-
             if results.multi_hand_landmarks:
                 image_height, image_width, image_depth = image.shape
 
@@ -122,45 +95,32 @@ if __name__ == '__main__':
 
                     blank = np.zeros((image_height, image_width, image_depth), dtype=np.uint8)
                     mp_drawing.draw_landmarks(blank, hand_landmarks, mp_hands.HAND_CONNECTIONS)
-
-                    # if state == 'predict':
-                    #     print(state)
-                    #     # try:
-                    #     # final_pred = pfm.predict(hand_landmarks, image, model)
-                    #     # final_pred = p.map(pfm.predict, hand_landmarks, image, model)
-                    #     p = Process(target=pfm.predict, args=(hand_landmarks, image, model,))
-                    #     p.start()
-                    #     print(p)
-                    #     state = 'idle'
-                    #     p.join()
-                    #     # player.status_changer(final_pred)
-                    #     # except:
-                    #     #     continue
                     
                     if state == 'predict' and FRAME_COUNTER > 0:
                         
-                        # try:
-                        # print(state, player.status, hc)
-                        blank = bbox_landmarks(hand_landmarks, blank)
-                        blank = black(blank)
+                        try:
+                            blank = hp.bbox_landmarks(hand_landmarks, blank)
+                            blank = hp.black(blank)
 
-                        PREDICTION_LIST.append(blank)
-                        FRAME_COUNTER -= 1
-                        # print(predictions_list)
-                        # except:
-                        #     continue
+                            PREDICTION_LIST.append(blank)
+                            FRAME_COUNTER -= 1
+                        except:
+                            continue
 
                     if len(PREDICTION_LIST) == 5:
                         PREDICTION_LIST = np.array(PREDICTION_LIST)
-                        print(PREDICTION_LIST.shape)
-                        final_pred = send_data(PREDICTION_LIST)
-                        print(final_pred)
+
+                        pred_list = []
+                        for img in range(PREDICTION_LIST.shape[0]):
+                            image = PREDICTION_LIST[img, :, :].reshape(1, 1, 32, 32)
+                            pred_list.append(predict(image))
+                        final_pred = str(statistics.mode(pred_list))
+
                         PREDICTION_LIST = []
                         FRAME_COUNTER = 5
                         state = 'idle'
                         player.status_changer(int(final_pred))
                 
-                ###########################################################################################################################################
             try:
                 # Master interface
                 if game_status == 0:
@@ -202,7 +162,7 @@ if __name__ == '__main__':
 
                 # Help interface
                 elif game_status == 2:
-                    helpme = cv2.imread('./Instructions.png')
+                    helpme = cv2.imread('GUI/Instructions.png')
                     sleep_timer += 1
                     cv2.imshow('help', helpme)
 
@@ -212,13 +172,23 @@ if __name__ == '__main__':
                         game_status = 0
 
                 cv2.imshow(window, image)
+
+                
             except:
                 continue
-            
+########################################### Code to record a video ###########################################
+            # out_vid.write(np.uint8(image))
+########################################### Code to record a video ###########################################
+
             key = cv2.waitKey(1)
             if key == 27:
                 break
+    
+########################################### Code to record a video ###########################################
+    # out_vid.release()
+########################################### Code to record a video ###########################################
 
     vc.release()
+
     cv2.destroyAllWindows()
 

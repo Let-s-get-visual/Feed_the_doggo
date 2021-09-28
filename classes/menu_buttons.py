@@ -30,7 +30,6 @@ class buttons():
         image = cv2.ellipse(image, center_coordinates, axesLength,
                 angle, startAngle, endAngle, color, thickness)
         
-
         font = cv2.FONT_HERSHEY_SIMPLEX
         
         fontScale              = 1
@@ -39,8 +38,7 @@ class buttons():
         thickness              = 2
 
         (label_width, label_height), baseline = cv2.getTextSize(self.button_type, font, fontScale, thickness)
-        #(label_width, label_height), baseline = cv2.getTextSize(label, FONT, FONT_SCALE, FONT_THICKNESS)
-        co_ord                 = (self.position[1]-label_width//2, self.position[0]+label_height//2)
+        co_ord                                = (self.position[1]-label_width//2, self.position[0]+label_height//2)
 
         cv2.putText(image, self.button_type, 
             co_ord, 

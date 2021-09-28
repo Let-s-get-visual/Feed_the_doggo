@@ -29,29 +29,15 @@ def bbox_landmarks(hn_landmark, image):
 
     return crop
 
-
 def add_dim(image):
 
     kernel = (5, 5)
-    #gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     mask = image > 70
     image[mask] = 255
-    # inverted = 255 - gray
-    #
-    # blurred = cv2.GaussianBlur(inverted, kernel, 0)
-    #
-    # canny = cv2.Canny(blurred, 100, 200)
-    #
     closing = cv2.morphologyEx(image, cv2.MORPH_CLOSE, kernel)
-    #
     dilated = cv2.dilate(closing, kernel, iterations=20)
-    #
-    # dilated = dilated.reshape(255, 255, 1)
-    #
-    # stacked = np.dstack((image, dilated))
-
+ 
     return dilated
-
 
 def predict(hn_landmark, image, model):
 
@@ -66,15 +52,6 @@ def predict(hn_landmark, image, model):
     pred = torch.argmax(probs)
 
     return pred
-
-
-img = cv2.imread("images/train/dog/1625670216.990446_dilan.png", 0)
-
-image = add_dim(img)
-
-cv2.imshow('test', image)
-cv2.waitKey()
-cv2.destroyAllWindows()
 
 
 

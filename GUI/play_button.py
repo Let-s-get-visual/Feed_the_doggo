@@ -1,18 +1,16 @@
-from pet_food import Pet_food
-from menu_buttons import buttons
+from classes.pet_food import Pet_food
+from classes.menu_buttons import buttons
 import mediapipe as mp
 import numpy as np
-import helpers as hp
+import utilities.helpers as hp
 import time
 import cv2
 
+import utilities.prediction_for_model as pfm
+import utilities.animal_figures as af
+import classes.handtracking as ht
 
-import helpers as hp
-import prediction_for_model as pfm
-import animal_figures as af
-import handtracking as ht
-
-from user import User
+from classes.user import User
 
 #call the class to create the food
 bone = Pet_food((1, 100), 'bone', 0)
@@ -23,26 +21,16 @@ concrete = Pet_food((1, 400), 'concrete', 2)
 worm = Pet_food((0, 300), 'worm', 3)
 worm1 = Pet_food((0, 300), 'worm', 6)
 
-
 Quit = buttons((40, 60), 'Quit')
 
-# mp_drawing = mp.solutions.drawing_utils
-# mp_hands = mp.solutions.hands
-
 # Useful Vars
-
 fontScale = 0.7
-# color = (0, 255, 0)
 thickness = 2
 CHANGE_INTERVAL = 3
-
-# state = 'idle'
-
 
 def play(cap, response, hc, image, index_fing_x, index_fing_y, player, global_time, state, list, waiting_time, window, first_time_pressed):
         
     ################################################################################################################################################
-    # try:
     Quit.draw_button(image)
 
     if Quit.is_pressed(index_fing_x, index_fing_y):
@@ -56,7 +44,6 @@ def play(cap, response, hc, image, index_fing_x, index_fing_y, player, global_ti
             food.reinit(pos)
         player.user_reset()
         first_time_pressed = False
-
 
     try:
         if player.status == 'human' and (time.time() - waiting_time) < CHANGE_INTERVAL:
@@ -102,7 +89,6 @@ def play(cap, response, hc, image, index_fing_x, index_fing_y, player, global_ti
             pass
         ##############################################################################################################
         
-
         #  updates the item's position
         for food in Pet_food:
             if food.current_status >= 0:
@@ -142,33 +128,25 @@ def play(cap, response, hc, image, index_fing_x, index_fing_y, player, global_ti
         image = cv2.putText(image, 'Score: ' + str(player.score), (image.shape[1] - 100, 50), Pet_food.FONT, fontScale, Pet_food.GREEN, thickness)
 
         ############################################################################################################################################
-
-        cv2.imshow(window, image)
-        key = cv2.waitKey(1)
-
-
-        
+       
         if player.lifes <= 0:
             game_status = 0
 
-    # TEST PURPOUSE ONLY!!!!!!!!!!
+    # TEST PURPOSE ONLY!!!!!!!!!!
     ##############################################################################################################################################
-        elif key == ord('d') or key == ord('D'):
-            player.status_changer(0)
-        elif key == ord('f') or key == ord('F'):
-            player.status_changer(1)
-        elif key == ord('r') or key == ord('R'):
-            player.status_changer(2)
-        elif key == ord('h') or key == ord('H'):
-            player.status_changer(-1)
-        elif key == ord('w') or key == ord('W'):
-            player.status_changer(5)
+        # elif key == ord('d') or key == ord('D'):
+        #     player.status_changer(0)
+        # elif key == ord('f') or key == ord('F'):
+        #     player.status_changer(1)
+        # elif key == ord('r') or key == ord('R'):
+        #     player.status_changer(2)
+        # elif key == ord('h') or key == ord('H'):
+        #     player.status_changer(-1)
+        # elif key == ord('w') or key == ord('W'):
+        #     player.status_changer(5)
     ##############################################################################################################################################
         
     except:
         pass
-
-        
-        ##############################################################################################################################################
 
     return image, game_status, state, first_time_pressed

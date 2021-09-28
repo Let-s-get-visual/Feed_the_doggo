@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import mediapipe as mp
 import time
+
 # create own function
 class handDetector():
     # from Hand  method from mediapipe
@@ -15,18 +16,13 @@ class handDetector():
         self.mpDraw=mp.solutions.drawing_utils
 
     def findHands(self,img,draw=False):
-        # frameRGB=cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
         self.result=self.hands.process(img)
-        # if self.result.multi_hand_landmarks:
-        #     for handLms in self.result.multi_hand_landmarks:
-        #         if draw:
-        #             self.mpDraw.draw_landmarks(img,handLms,self.mpHands.HAND_CONNECTIONS)
         return img
+
     def findPosition(self,img,handNomber=0,draw=False):
         lmList=[]
         if self.result.multi_hand_landmarks:
             hand=self.result.multi_hand_landmarks[handNomber]
-            # print(hand.landmark[3])
             for id, lm in enumerate(hand.landmark):
                 h,w,c=img.shape
                 cx,cy=int(lm.x*w),int(lm.y*h)
