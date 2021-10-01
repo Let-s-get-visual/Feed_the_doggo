@@ -31,9 +31,9 @@ Use your finger to touch the on-screen button and enjoy!
 
 ### Team
 
-<a href="https://github.com/UdawalaHewageDilan"> Udawala Hewage Dilan </a>
-<a href="https://github.com/VladimirGas"> Vladimir Gasanov </a>
-<a href="https://github.com/Pathi-rao"> Lakshmipathi rao Devalla </a>
-<a href="https://github.com/shahidqureshi01"> Shahid Qureshi </a>
-<a href="https://github.com/nsarkhanov"> Nurlan Sarkhanov </a>
-<a href="https://github.com/alessiorecchia"> Alessio Recchia </a>
+<a href="https://github.com/UdawalaHewageDilan" target="blank_"> Udawala Hewage Dilan </a> <br>
+<a href="https://github.com/VladimirGas" target="blank_"> Vladimir Gasanov </a> <br>
+<a href="https://github.com/Pathi-rao" target="blank_"> Lakshmipathi rao Devalla </a> <br>
+<a href="https://github.com/shahidqureshi01" target="blank_"> Shahid Qureshi </a> <br>
+<a href="https://github.com/nsarkhanov" target="blank_"> Nurlan Sarkhanov </a> <br>
+<a href="https://github.com/alessiorecchia" target="blank_"> Alessio Recchia </a> <br>
