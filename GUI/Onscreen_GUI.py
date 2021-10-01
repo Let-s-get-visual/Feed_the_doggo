@@ -166,7 +166,7 @@ def gui():
                     sleep_timer += 1
                     cv2.imshow('help', helpme)
 
-                    if sleep_timer == 180:
+                    if sleep_timer >= 180:
                         cv2.destroyWindow('help')
                         sleep_timer = 0
                         game_status = 0
@@ -175,7 +175,10 @@ def gui():
 
                 
             except:
-                continue
+                try:
+                    cv2.imshow(window, image)
+                except:
+                    continue
 ########################################### Code to record a video ###########################################
             # out_vid.write(np.uint8(image))
 ########################################### Code to record a video ###########################################
