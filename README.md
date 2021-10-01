@@ -3,7 +3,7 @@ Public repo for the project week!
 
 This project is about an augmented reality game, involving computer vision and deep-learnig.
 
-Some food items are spowned in the the gamefield and you will eat them with the proper animal-character drawn on your hand after the AI model recognized the gesture to call that character.
+Some food items are spawned in the the gamefield and you will eat them with the proper animal-character drawn on your hand after the AI model recognized the gesture to call that character.
 
 <img src="https://github.com/alessiorecchia/portfolio/blob/main/static/assets/demo.gif">
 
