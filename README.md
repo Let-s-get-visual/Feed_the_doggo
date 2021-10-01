@@ -28,3 +28,12 @@ python3 main.py
 This opens your camera and a window pops up
 
 Use your finger to touch the on-screen button and enjoy!
+
+### Team
+
+<a href="https://github.com/UdawalaHewageDilan"> Udawala Hewage Dilan </a>
+<a href="https://github.com/VladimirGas"> Vladimir Gasanov </a>
+<a href="https://github.com/Pathi-rao"> Lakshmipathi rao Devalla </a>
+<a href="https://github.com/shahidqureshi01"> Shahid Qureshi </a>
+<a href="https://github.com/nsarkhanov"> Nurlan Sarkhanov </a>
+<a href="https://github.com/alessiorecchia"> Alessio Recchia </a>
