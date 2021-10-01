@@ -124,8 +124,8 @@ def play(cap, response, hc, image, index_fing_x, index_fing_y, player, global_ti
         ############################################################################################################################################
 
         if player.life_color == Pet_food.BRIGHT_GREEN or int(time.time() - global_time) % 2 == 1:
-            image = cv2.putText(image, 'lifes: ' + str(player.lifes), (image.shape[1] - 100, 20), Pet_food.FONT, fontScale, player.life_color, thickness)
-        image = cv2.putText(image, 'Score: ' + str(player.score), (image.shape[1] - 100, 50), Pet_food.FONT, fontScale, Pet_food.GREEN, thickness)
+            image = cv2.putText(image, 'lifes: ' + str(player.lifes), (image.shape[1] - 120, 20), Pet_food.FONT, fontScale, player.life_color, thickness)
+        image = cv2.putText(image, 'Score: ' + str(player.score), (image.shape[1] - 120, 50), Pet_food.FONT, fontScale, Pet_food.GREEN, thickness)
 
         ############################################################################################################################################
        
