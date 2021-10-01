@@ -29,6 +29,10 @@ This opens your camera and a window pops up
 
 Use your finger to touch the on-screen button and enjoy!
 
+### The data collector
+
+Find out how we collected the data to train the model <a href="https://github.com/Let-s-get-visual/Handgesture_data_and_model" target="blank_"> here </a>
+
 ### Team
 
 <a href="https://github.com/UdawalaHewageDilan" target="blank_"> Udawala Hewage Dilan </a> <br>
