@@ -11,15 +11,15 @@ You earn or loose one point depending on if you eat the correct food. You loose 
 
 Clone the repository, then install the needed libraries with
 
-´´´
+'''
 pip install -r requirements.txt
-´´´
+'''
 
 then run 
 
-´´´
+'''
 python3 main.py
-´´´
+'''
 
 This opens your camera and a window pops up
 
